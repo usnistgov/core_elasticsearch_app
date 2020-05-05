@@ -1,0 +1,49 @@
+{% extends 'core_main_app/_render/admin/theme/tools/box.html' %}
+
+{% block box_title %}List all template configurations{% endblock %}
+
+{% block box_tools %}
+<div class="btn-group float-right">
+{% url 'admin:core_elasticsearch_app_templates_add' as add_url %}
+{% include 'core_main_app/common/buttons/add.html' with label='Add Template Configuration' %}
+</div>
+{% endblock %}
+
+{% block box_body %}
+
+    <table class="table table-bordered table-striped table-hover">
+        <tr>
+            <th>Template Name</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for es_template in data.es_template_list %}
+            {% cycle 'even' '' as rowcolors silent %}
+            <tr class="{{ rowcolors }}">
+                <td>{{ es_template.template.display_name }}</td>
+                <td>{{ es_template.title_path }}</td>
+                <td>{{ es_template.description_path }}</td>
+                <td>
+                    {% block box_actions %}
+                        {% url 'admin:core_elasticsearch_app_templates_edit' es_template.id as edit_url %}
+                        {% include 'core_main_app/common/buttons/edit.html' %}
+                        {% url 'admin:core_elasticsearch_app_templates_delete' es_template.id as delete_url %}
+                        {% include 'core_main_app/common/buttons/delete.html' %}
+                    {% endblock %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td class="empty" colspan="4">
+                    There are currently no template configured.
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+{% block box_footer %}
+{% endblock %}

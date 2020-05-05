@@ -18,14 +18,6 @@ CAN_SET_PUBLIC_DATA_TO_PRIVATE = getattr(settings, 'CAN_SET_PUBLIC_DATA_TO_PRIVA
 """ :py:class:`boolean`: True if public data can be unpublished
 """
 
-ELASTICSEARCH_DATA_TITLE = getattr(settings, "ELASTICSEARCH_DATA_TITLE", lambda data: data.title)
-""" Select a path in the data to be indexed as the data's title
+ELASTICSEARCH_CDCS_DATA_INDEX = getattr(settings, "ELASTICSEARCH_CDCS_DATA_INDEX", "cdcs-data")
+""" Name of the Elasticsearch index for CDCS data
 """
-# ELASTICSEARCH_DATA_TITLE = lambda data: data.dict_content['Resource']['identity']['title']
-
-ELASTICSEARCH_DATA_DESCRIPTION = getattr(settings, "ELASTICSEARCH_DATA_DESCRIPTION", lambda data: None)
-""" Select a path in the data to indexed as the data's description
-"""
-# ELASTICSEARCH_DATA_DESCRIPTION = lambda data: data.dict_content['Resource']['content']['description']
-# TODO: see how we can index all the text content of a data
-

@@ -2,6 +2,7 @@
 """
 
 import re
+from functools import reduce
 
 
 def clean_keyword(keyword):
@@ -24,3 +25,19 @@ def clean_keyword(keyword):
     keyword = keyword.replace('<em>', '').replace('</em>', '')
 
     return keyword
+
+
+def get_nested_value(dictionary, keys, default=None):
+    """ Get value in nested dictionary
+
+    From https://stackoverflow.com/a/46890853
+
+    Args:
+        dictionary:
+        keys:
+        default:
+
+    Returns:
+
+    """
+    return reduce(lambda d, key: d.get(key, default) if isinstance(d, dict) else default, keys.split("/"), dictionary)

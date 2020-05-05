@@ -1,10 +1,15 @@
 """ Utils for managing CDCS data in elasticsearch
 """
-from core_elasticsearch_app.components.data.autocomplete_settings import DATA_AUTOCOMPLETE_SETTINGS
-from core_elasticsearch_app.settings import ELASTICSEARCH_DATA_TITLE, ELASTICSEARCH_DATA_DESCRIPTION
-from core_elasticsearch_app.utils.elasticsearch_client import ElasticsearchClient
+import logging
 
-INDEX_NAME = 'cdcs-data'
+from core_elasticsearch_app.commons.exceptions import ElasticsearchError
+from core_elasticsearch_app.components.data.autocomplete_settings import DATA_AUTOCOMPLETE_SETTINGS
+from core_elasticsearch_app.components.elasticsearch_template import api as elasticsearch_template_api
+from core_elasticsearch_app.settings import ELASTICSEARCH_CDCS_DATA_INDEX
+from core_elasticsearch_app.utils.elasticsearch_client import ElasticsearchClient
+from core_elasticsearch_app.utils.utils import get_nested_value
+
+logger = logging.getLogger(__name__)
 
 
 def create_title_autocomplete_index():
@@ -13,7 +18,7 @@ def create_title_autocomplete_index():
     Returns:
 
     """
-    return ElasticsearchClient.create_index(INDEX_NAME, DATA_AUTOCOMPLETE_SETTINGS)
+    return ElasticsearchClient.create_index(ELASTICSEARCH_CDCS_DATA_INDEX, DATA_AUTOCOMPLETE_SETTINGS)
 
 
 def index_data(data):
@@ -25,13 +30,15 @@ def index_data(data):
     Returns:
 
     """
-    es_data = {
-        'data_id': str(data.id),
-        'title': ELASTICSEARCH_DATA_TITLE(data),
-        'description': ELASTICSEARCH_DATA_DESCRIPTION(data)
-    }
-    # TODO: could use global PID instead of id
-    return ElasticsearchClient.index_document(INDEX_NAME, str(data.id), es_data)
+    es_template = elasticsearch_template_api.get_by_template(data.template)
+    if es_template:
+        es_data = {
+            'data_id': str(data.id),
+            'title': get_value_from_path(data, es_template.title_path),
+            'description': get_value_from_path(data, es_template.description_path)
+        }
+        # TODO: could use global PID instead of id
+        return ElasticsearchClient.index_document(ELASTICSEARCH_CDCS_DATA_INDEX, str(data.id), es_data)
 
 
 def get_suggestions(query, fuzziness=1, prefix_length=3, fragment_size=100):
@@ -63,5 +70,29 @@ def get_suggestions(query, fuzziness=1, prefix_length=3, fragment_size=100):
             }
         }
     }
-    result = ElasticsearchClient.search(INDEX_NAME, query)
+    result = ElasticsearchClient.search(ELASTICSEARCH_CDCS_DATA_INDEX, query)
     return result['hits']['hits']
+
+
+def get_value_from_path(data, path):
+    """
+
+    Args:
+        data:
+        path:
+
+    Returns:
+
+    """
+    value = get_nested_value(data.dict_content, path)
+    if value:
+        if isinstance(value, dict):
+            logger.info("A dict was found at {0} for data {1}".format(path, str(data.id)))
+            try:
+                value = value["#text"]
+            except:
+                value = None
+                logger.warning("#text was not found at path {0} for data {1}".format(path, str(data.id)))
+    else:
+        logger.warning("No value could be found at path {0} for data {1}".format(path, str(data.id)))
+    return value
