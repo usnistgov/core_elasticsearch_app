@@ -11,13 +11,34 @@ from core_main_app.components.template.models import Template
 class ElasticsearchTemplate(Document):
     """ ElasticsearchTemplate object
     """
-    template = fields.ReferenceField(Template, blank=False, reverse_delete_rule=CASCADE, unique=True)
+
+    template = fields.ReferenceField(
+        Template, blank=False, reverse_delete_rule=CASCADE, unique=True
+    )
     title_path = fields.StringField(default=None)
     description_path = fields.StringField(default=None)
 
     @staticmethod
+    def get_by_id(es_template_id):
+        """ Returns the object with a given id
+
+        Args:
+            es_template_id:
+
+        Returns:
+            ElasticsearchTemplate (obj): ElasticsearchTemplate
+
+        """
+        try:
+            return ElasticsearchTemplate.objects.get(pk=es_template_id)
+        except mongoengine_errors.DoesNotExist as e:
+            raise exceptions.DoesNotExist(str(e))
+        except Exception as e:
+            raise exceptions.ModelError(str(e))
+
+    @staticmethod
     def get_by_template(template):
-        """ Returns the object with the template
+        """ Returns the object with a given template
 
         Args:
             template:
@@ -39,4 +60,3 @@ class ElasticsearchTemplate(Document):
 
         """
         return ElasticsearchTemplate.objects.all()
-

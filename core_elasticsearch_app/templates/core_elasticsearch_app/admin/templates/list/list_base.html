@@ -29,6 +29,14 @@
                     {% block box_actions %}
                         {% url 'admin:core_elasticsearch_app_templates_edit' es_template.id as edit_url %}
                         {% include 'core_main_app/common/buttons/edit.html' %}
+                        <button class="btn btn-secondary btn-check"
+                                data-url="{% url 'admin:core_elasticsearch_app_templates_check' es_template.id %}">
+                            <i class="fa fa-check" aria-hidden="true"></i> Check
+                        </button>
+                        <button class="btn btn-secondary btn-index"
+                                data-url="{% url 'admin:core_elasticsearch_app_templates_index' es_template.id %}">
+                            <i class="fa fa-database" aria-hidden="true"></i> Index
+                        </button>
                         {% url 'admin:core_elasticsearch_app_templates_delete' es_template.id as delete_url %}
                         {% include 'core_main_app/common/buttons/delete.html' %}
                     {% endblock %}

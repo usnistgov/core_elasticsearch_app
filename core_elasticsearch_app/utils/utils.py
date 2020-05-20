@@ -18,11 +18,11 @@ def clean_keyword(keyword):
     keyword = keyword.lower()
 
     # remove extra characters
-    regex = re.compile('<em>.*</em>')
+    regex = re.compile("<em>.*</em>")
     keyword = re.search(regex, keyword).group()
 
     # remove highlight tags
-    keyword = keyword.replace('<em>', '').replace('</em>', '')
+    keyword = keyword.replace("<em>", "").replace("</em>", "")
 
     return keyword
 
@@ -40,4 +40,8 @@ def get_nested_value(dictionary, keys, default=None):
     Returns:
 
     """
-    return reduce(lambda d, key: d.get(key, default) if isinstance(d, dict) else default, keys.split("/"), dictionary)
+    return reduce(
+        lambda d, key: d.get(key, default) if isinstance(d, dict) else default,
+        keys.split("/"),
+        dictionary,
+    )

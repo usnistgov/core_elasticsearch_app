@@ -2,11 +2,15 @@
 """
 import logging
 
-from core_elasticsearch_app.components.data.autocomplete_settings import DATA_AUTOCOMPLETE_SETTINGS
-from core_elasticsearch_app.components.elasticsearch_template import api as elasticsearch_template_api
+from core_elasticsearch_app.components.data.autocomplete_settings import (
+    DATA_AUTOCOMPLETE_SETTINGS,
+)
+from core_elasticsearch_app.components.data.mongodb import get_value_from_path
+from core_elasticsearch_app.components.elasticsearch_template import (
+    api as elasticsearch_template_api,
+)
 from core_elasticsearch_app.settings import ELASTICSEARCH_CDCS_DATA_INDEX
 from core_elasticsearch_app.utils.elasticsearch_client import ElasticsearchClient
-from core_elasticsearch_app.utils.utils import get_nested_value
 from core_main_app.commons import exceptions
 
 logger = logging.getLogger(__name__)
@@ -18,7 +22,9 @@ def create_title_autocomplete_index():
     Returns:
 
     """
-    return ElasticsearchClient.create_index(ELASTICSEARCH_CDCS_DATA_INDEX, DATA_AUTOCOMPLETE_SETTINGS)
+    return ElasticsearchClient.create_index(
+        ELASTICSEARCH_CDCS_DATA_INDEX, DATA_AUTOCOMPLETE_SETTINGS
+    )
 
 
 def index_data(data):
@@ -33,14 +39,20 @@ def index_data(data):
     try:
         es_template = elasticsearch_template_api.get_by_template(data.template)
         es_data = {
-            'data_id': str(data.id),
-            'title': get_value_from_path(data, es_template.title_path),
-            'description': get_value_from_path(data, es_template.description_path)
+            "data_id": str(data.id),
+            "title": get_value_from_path(data, es_template.title_path),
+            "description": get_value_from_path(data, es_template.description_path),
         }
         # TODO: could use global PID instead of id
-        return ElasticsearchClient.index_document(ELASTICSEARCH_CDCS_DATA_INDEX, str(data.id), es_data)
+        return ElasticsearchClient.index_document(
+            ELASTICSEARCH_CDCS_DATA_INDEX, str(data.id), es_data
+        )
     except exceptions.DoesNotExist:
-        logger.warning("Data with id {0} will not be indexed. Not template configured.".format(str(data.id)))
+        logger.warning(
+            "Data with id {0} will not be indexed. No template configured.".format(
+                str(data.id)
+            )
+        )
     except Exception as e:
         logger.error(str(e))
 
@@ -62,41 +74,14 @@ def get_suggestions(query, fuzziness=1, prefix_length=3, fragment_size=100):
             "multi_match": {
                 "query": query,
                 "fuzziness": fuzziness,
-                "prefix_length": prefix_length
+                "prefix_length": prefix_length,
             }
         },
         "highlight": {
             "number_of_fragments": 1,
             "fragment_size": fragment_size,
-            "fields": {
-                "title": {},
-                "description": {}
-            }
-        }
+            "fields": {"title": {}, "description": {}},
+        },
     }
     result = ElasticsearchClient.search(ELASTICSEARCH_CDCS_DATA_INDEX, query)
-    return result['hits']['hits']
-
-
-def get_value_from_path(data, path):
-    """
-
-    Args:
-        data:
-        path:
-
-    Returns:
-
-    """
-    value = get_nested_value(data.dict_content, path)
-    if value:
-        if isinstance(value, dict):
-            logger.info("A dict was found at {0} for data {1}".format(path, str(data.id)))
-            try:
-                value = value["#text"]
-            except:
-                value = None
-                logger.warning("#text was not found at path {0} for data {1}".format(path, str(data.id)))
-    else:
-        logger.warning("No value could be found at path {0} for data {1}".format(path, str(data.id)))
-    return value
+    return result["hits"]["hits"]

@@ -3,35 +3,52 @@
 from django import forms
 from django_mongoengine.forms import DocumentForm
 
-from core_elasticsearch_app.components.elasticsearch_template.models import ElasticsearchTemplate
+from core_elasticsearch_app.components.elasticsearch_template.models import (
+    ElasticsearchTemplate,
+)
 from core_main_app.components.template import api as template_api
-from core_main_app.components.template_version_manager import api as template_version_manager_api
+from core_main_app.components.template_version_manager import (
+    api as template_version_manager_api,
+)
 
 
 class ElasticsearchTemplateForm(DocumentForm):
     """ ElasticsearchTemplate form
     """
-    template = forms.ChoiceField(label='Template',
-                                 widget=forms.Select(attrs={"class": "form-control"}))
 
-    title_path = forms.CharField(label='Path to Title', required=False,
-                                 widget=forms.TextInput(attrs={'placeholder': 'Resource/identity/title',
-                                                               'class': 'form-control'}))
+    template = forms.ChoiceField(
+        label="Template", widget=forms.Select(attrs={"class": "form-control"})
+    )
 
-    description_path = forms.CharField(label='Path to Description', required=False,
-                                       widget=forms.TextInput(attrs={'placeholder': 'Resource/content/description',
-                                                                     'class': 'form-control'}))
+    title_path = forms.CharField(
+        label="Path to Title",
+        required=False,
+        widget=forms.TextInput(
+            attrs={"placeholder": "Resource/identity/title", "class": "form-control"}
+        ),
+    )
+
+    description_path = forms.CharField(
+        label="Path to Description",
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Resource/content/description",
+                "class": "form-control",
+            }
+        ),
+    )
 
     class Meta(object):
         document = ElasticsearchTemplate
-        fields = ['template', 'title_path', 'description_path']
+        fields = ["template", "title_path", "description_path"]
 
     def __init__(self, *args, **kwargs):
         super(ElasticsearchTemplateForm, self).__init__(*args, **kwargs)
-        self.fields['template'].choices = _get_templates_versions()
+        self.fields["template"].choices = _get_templates_versions()
 
     def clean_template(self):
-        data = self.cleaned_data['template']
+        data = self.cleaned_data["template"]
         return template_api.get(data)
 
 

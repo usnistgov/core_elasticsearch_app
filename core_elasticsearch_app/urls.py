@@ -4,5 +4,5 @@ from django.conf.urls import url, include
 
 
 urlpatterns = [
-    url(r'rest/',  include('core_elasticsearch_app.rest.urls')),
+    url(r"rest/", include("core_elasticsearch_app.rest.urls")),
 ]

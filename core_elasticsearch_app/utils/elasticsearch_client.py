@@ -8,6 +8,7 @@ from core_elasticsearch_app.settings import ELASTICSEARCH_HOST, ELASTICSEARCH_PO
 class ElasticsearchClient(object):
     """ Elasticsearch client
     """
+
     _es = None
 
     @classmethod
@@ -16,7 +17,9 @@ class ElasticsearchClient(object):
         Returns:
         """
         if cls._es is None:
-            cls._es = Elasticsearch([{'host': ELASTICSEARCH_HOST, 'port': ELASTICSEARCH_PORT}])
+            cls._es = Elasticsearch(
+                [{"host": ELASTICSEARCH_HOST, "port": ELASTICSEARCH_PORT}]
+            )
         return cls._es
 
     @classmethod
@@ -42,4 +45,3 @@ class ElasticsearchClient(object):
     @classmethod
     def search(cls, index_name, query):
         return cls.es().search(index=index_name, body=query)
-

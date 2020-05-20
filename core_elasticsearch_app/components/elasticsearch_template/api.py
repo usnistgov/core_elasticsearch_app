@@ -1,6 +1,8 @@
 """ ElasticsearchTemplate api
 """
-from core_elasticsearch_app.components.elasticsearch_template.models import ElasticsearchTemplate
+from core_elasticsearch_app.components.elasticsearch_template.models import (
+    ElasticsearchTemplate,
+)
 
 
 def upsert(elasticsearch_template):
@@ -46,3 +48,16 @@ def get_all():
 
     """
     return ElasticsearchTemplate.get_all()
+
+
+def get_by_id(es_template_id):
+    """ Get Elasticsearch Template by id
+
+    Args:
+        es_template_id:
+
+
+    Returns:
+
+    """
+    return ElasticsearchTemplate.get_by_id(es_template_id)
