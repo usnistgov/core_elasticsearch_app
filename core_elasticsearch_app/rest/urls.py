@@ -1,16 +1,25 @@
 """ Url router for the core elasticsearch app
 """
-from django.conf.urls import url
+from django.contrib.admin.views.decorators import staff_member_required
+from django.urls import re_path
 
+from core_elasticsearch_app.rest.elasticsearch_template.views import (
+    ElasticsearchTemplateList,
+)
 from core_elasticsearch_app.rest.views import DocumentSuggestion, KeywordSuggestion
 
 urlpatterns = [
-    url(
+    re_path(
+        r"^elasticsearch_template/$",
+        staff_member_required(ElasticsearchTemplateList.as_view()),
+        name="core_elasticsearch_app_rest_elasticsearch_template_list",
+    ),
+    re_path(
         r"^document/suggest",
         DocumentSuggestion.as_view(),
         name="core_elasticsearch_document_suggestion_view",
     ),
-    url(
+    re_path(
         r"^keyword/suggest",
         KeywordSuggestion.as_view(),
         name="core_elasticsearch_keyword_suggestion_view",
