@@ -36,9 +36,9 @@ class AddElasticsearchTemplateView(AddObjectModalView):
         # Save treatment.
         try:
             es_template = ElasticsearchTemplate(
-                template=self.object.template,
-                title_path=self.object.title_path,
-                description_path=self.object.description_path,
+                template=form.cleaned_data["template"],
+                title_path=form.cleaned_data["title_path"],
+                description_paths=form.cleaned_data["description_paths"],
             )
             elasticsearch_template_api.upsert(es_template)
         except Exception as e:
@@ -57,6 +57,7 @@ class EditElasticsearchTemplateView(EditObjectModalView):
     def _save(self, form):
         # Save treatment.
         try:
+            self.object.description_paths = form.cleaned_data["description_paths"]
             elasticsearch_template_api.upsert(self.object)
         except Exception as e:
             form.add_error(None, str(e))
@@ -99,13 +100,15 @@ def check_data_from_template(request, pk):
             query=get_exists_query_from_path(es_template.title_path), user=request.user
         )
         # Check if descriptions found with given path
-        description_results = data_api.execute_query(
-            query=get_exists_query_from_path(es_template.description_path),
-            user=request.user,
-        )
+        desc_count = 0
+        for path in es_template.description_paths:
+            description_results = data_api.execute_query(
+                query=get_exists_query_from_path(path), user=request.user,
+            )
+            desc_count += description_results.count()
         message = (
             f"Title: {title_results.count()} data found. "
-            f"Description: {description_results.count()} data found."
+            f"Description: {desc_count} data fields found."
         )
     except Exception as e:
         message = str(e)

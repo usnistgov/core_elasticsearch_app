@@ -23,8 +23,14 @@
             {% cycle 'even' '' as rowcolors silent %}
             <tr class="{{ rowcolors }}">
                 <td>{{ es_template.template.display_name }}</td>
-                <td>{{ es_template.title_path }}</td>
-                <td>{{ es_template.description_path }}</td>
+                <td><code>{{ es_template.title_path }}</code></td>
+                <td>
+                    <ul>
+                        {% for xpath in es_template.description_paths %}
+                            <li><code>{{ xpath }}</code></li>
+                        {% endfor %}
+                    </ul>
+                </td>
                 <td>
                     {% block box_actions %}
                         {% url 'admin:core_elasticsearch_app_templates_edit' es_template.id as edit_url %}

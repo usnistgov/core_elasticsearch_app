@@ -41,7 +41,12 @@ def index_data(data):
         es_data = {
             "data_id": str(data.id),
             "title": get_value_from_path(data, es_template.title_path),
-            "description": get_value_from_path(data, es_template.description_path),
+            "description": " ".join(
+                [
+                    get_value_from_path(data, path)
+                    for path in es_template.description_paths
+                ]
+            ),
         }
         # TODO: could use global PID instead of id
         return ElasticsearchClient.index_document(

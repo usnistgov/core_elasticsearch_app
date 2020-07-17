@@ -1,6 +1,7 @@
 """ Admin views Core Elasticsearch Search App
 """
 from django.contrib.admin.views.decorators import staff_member_required
+from django.views.generic import View
 
 from core_elasticsearch_app.components.elasticsearch_template import (
     api as elasticsearch_template_api,
@@ -11,7 +12,6 @@ from core_main_app.views.common.ajax import (
     DeleteObjectModalView,
     EditObjectModalView,
 )
-from django.views.generic import View
 
 
 class TemplatesView(View):

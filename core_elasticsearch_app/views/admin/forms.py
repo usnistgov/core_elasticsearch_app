@@ -1,15 +1,20 @@
 """ Elasticsearch forms
 """
+import logging
+
 from django import forms
 from django_mongoengine.forms import DocumentForm
 
 from core_elasticsearch_app.components.elasticsearch_template.models import (
     ElasticsearchTemplate,
 )
+from core_main_app.commons import exceptions
 from core_main_app.components.template import api as template_api
 from core_main_app.components.template_version_manager import (
     api as template_version_manager_api,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class ElasticsearchTemplateForm(DocumentForm):
@@ -28,12 +33,12 @@ class ElasticsearchTemplateForm(DocumentForm):
         ),
     )
 
-    description_path = forms.CharField(
-        label="Path to Description",
+    description_paths = forms.CharField(
+        label="Paths to Description",
         required=False,
-        widget=forms.TextInput(
+        widget=forms.Textarea(
             attrs={
-                "placeholder": "Resource/content/description",
+                "placeholder": "Resource/content/description\nResource/content/subject",
                 "class": "form-control",
             }
         ),
@@ -41,15 +46,21 @@ class ElasticsearchTemplateForm(DocumentForm):
 
     class Meta(object):
         document = ElasticsearchTemplate
-        fields = ["template", "title_path", "description_path"]
+        fields = ["template", "title_path"]
 
     def __init__(self, *args, **kwargs):
         super(ElasticsearchTemplateForm, self).__init__(*args, **kwargs)
         self.fields["template"].choices = _get_templates_versions()
+        self.fields["description_paths"].initial = "\n".join(
+            kwargs["instance"].description_paths if kwargs["instance"] else ""
+        )
 
     def clean_template(self):
         data = self.cleaned_data["template"]
         return template_api.get(data)
+
+    def clean_description_paths(self):
+        return self.cleaned_data["description_paths"].split()
 
 
 # FIXME: duplicate from core_oaipmh_provider_app

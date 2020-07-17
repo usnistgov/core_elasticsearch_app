@@ -1,9 +1,12 @@
-""" TemplateXslRendering model
+""" ElasticsearchTemplate model
 """
 from django_mongoengine import fields, Document
 from mongoengine import errors as mongoengine_errors
 from mongoengine.queryset.base import CASCADE
 
+from core_explore_keyword_app.components.search_operator.models import (
+    validate_xpath_list,
+)
 from core_main_app.commons import exceptions
 from core_main_app.components.template.models import Template
 
@@ -16,7 +19,9 @@ class ElasticsearchTemplate(Document):
         Template, blank=False, reverse_delete_rule=CASCADE, unique=True
     )
     title_path = fields.StringField(default=None)
-    description_path = fields.StringField(default=None)
+    description_paths = fields.ListField(
+        blank=False, validation=validate_xpath_list, default=[]
+    )
 
     @staticmethod
     def get_by_id(es_template_id):
