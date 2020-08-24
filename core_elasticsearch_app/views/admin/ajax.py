@@ -131,3 +131,7 @@ def index_data_from_template(request, pk):
     es_template = elasticsearch_template_api.get_by_id(pk)
     # Index all data for this template
     index_all_data_from_template.apply_async((str(es_template.template.id),))
+
+    return HttpResponse(
+        json.dumps("Indexing data..."), content_type="application/javascript"
+    )

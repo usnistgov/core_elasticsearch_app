@@ -15,7 +15,6 @@ from core_main_app.views.common.ajax import (
 
 
 class TemplatesView(View):
-    @staticmethod
     @staff_member_required
     def get(request, *args, **kwargs):
         """ Configure templates, Display as list.
