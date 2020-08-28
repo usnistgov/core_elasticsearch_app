@@ -24,8 +24,7 @@ from core_main_app.views.common.ajax import (
 
 
 class AddElasticsearchTemplateView(AddObjectModalView):
-    """ AddElasticsearchTemplateView
-    """
+    """AddElasticsearchTemplateView"""
 
     form_class = ElasticsearchTemplateForm
     document = ElasticsearchTemplate
@@ -46,8 +45,7 @@ class AddElasticsearchTemplateView(AddObjectModalView):
 
 
 class EditElasticsearchTemplateView(EditObjectModalView):
-    """ EditElasticsearchTemplateView
-    """
+    """EditElasticsearchTemplateView"""
 
     form_class = ElasticsearchTemplateForm
     document = ElasticsearchTemplate
@@ -64,8 +62,7 @@ class EditElasticsearchTemplateView(EditObjectModalView):
 
 
 class DeleteElasticsearchTemplateView(DeleteObjectModalView):
-    """ DeleteElasticsearchTemplateView
-    """
+    """DeleteElasticsearchTemplateView"""
 
     document = ElasticsearchTemplate
     success_url = reverse_lazy("admin:core_elasticsearch_app_templates")
@@ -83,7 +80,7 @@ class DeleteElasticsearchTemplateView(DeleteObjectModalView):
 
 @staff_member_required
 def check_data_from_template(request, pk):
-    """ Check if data found for provided xpaths
+    """Check if data found for provided xpaths
 
     Args:
         request:
@@ -103,7 +100,8 @@ def check_data_from_template(request, pk):
         desc_count = 0
         for path in es_template.description_paths:
             description_results = data_api.execute_query(
-                query=get_exists_query_from_path(path), user=request.user,
+                query=get_exists_query_from_path(path),
+                user=request.user,
             )
             desc_count += description_results.count()
         message = (
@@ -118,7 +116,7 @@ def check_data_from_template(request, pk):
 
 @staff_member_required
 def index_data_from_template(request, pk):
-    """ Index all data from template
+    """Index all data from template
 
     Args:
         request:

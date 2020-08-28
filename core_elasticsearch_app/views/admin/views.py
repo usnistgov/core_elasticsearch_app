@@ -1,6 +1,5 @@
 """ Admin views Core Elasticsearch Search App
 """
-from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import View
 
 from core_elasticsearch_app.components.elasticsearch_template import (
@@ -15,9 +14,8 @@ from core_main_app.views.common.ajax import (
 
 
 class TemplatesView(View):
-    @staff_member_required
-    def get(request, *args, **kwargs):
-        """ Configure templates, Display as list.
+    def get(self, request, *args, **kwargs):
+        """Configure templates, Display as list.
 
         Args:
             request:

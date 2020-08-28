@@ -18,8 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 class ElasticsearchTemplateForm(DocumentForm):
-    """ ElasticsearchTemplate form
-    """
+    """ElasticsearchTemplate form"""
 
     template = forms.ChoiceField(
         label="Template", widget=forms.Select(attrs={"class": "form-control"})
@@ -65,7 +64,7 @@ class ElasticsearchTemplateForm(DocumentForm):
 
 # FIXME: duplicate from core_oaipmh_provider_app
 def _get_templates_versions():
-    """ Get templates versions.
+    """Get templates versions.
 
     Returns:
         List of templates versions.

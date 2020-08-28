@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 def create_title_autocomplete_index():
-    """ Create autocomplete index on data titles
+    """Create autocomplete index on data titles
 
     Returns:
 
@@ -28,7 +28,7 @@ def create_title_autocomplete_index():
 
 
 def index_data(data):
-    """ Build json document for elasticsearch from CDCS data
+    """Build json document for elasticsearch from CDCS data
 
     Args:
         data:
@@ -63,7 +63,7 @@ def index_data(data):
 
 
 def get_suggestions(query, fuzziness=1, prefix_length=3, fragment_size=100):
-    """ Get suggestions from query
+    """Get suggestions from query
 
     Args:
         query:

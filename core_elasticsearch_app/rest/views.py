@@ -9,11 +9,10 @@ from core_elasticsearch_app.utils.utils import clean_keyword
 
 
 class DocumentSuggestion(APIView):
-    """ Get document suggestions from keywords.
-    """
+    """Get document suggestions from keywords."""
 
     def get(self, request):
-        """ Get all Suggestions
+        """Get all Suggestions
 
         Url Parameters:
 
@@ -47,11 +46,10 @@ class DocumentSuggestion(APIView):
 
 
 class KeywordSuggestion(APIView):
-    """ Get Keyword suggestions from keywords.
-    """
+    """Get Keyword suggestions from keywords."""
 
     def get(self, request):
-        """ Get all Suggestions
+        """Get all Suggestions
 
         Url Parameters:
 

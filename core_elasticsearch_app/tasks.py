@@ -12,8 +12,7 @@ logger = logging.getLogger(__name__)
 
 @shared_task
 def index_all_data_from_template(template):
-    """ Index all data
-    """
+    """Index all data"""
     try:
         data = data_system_api.get_all_by_template(
             template=template, order_by_field=None
@@ -31,8 +30,7 @@ def index_all_data_from_template(template):
 
 @shared_task
 def index_data(data_id):
-    """ Index a data
-    """
+    """Index a data"""
     try:
         data = data_system_api.get_data_by_id(data_id)
         try:

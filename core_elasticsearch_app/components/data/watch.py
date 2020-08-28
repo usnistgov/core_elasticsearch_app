@@ -8,7 +8,7 @@ from signals_utils.signals.mongo import connector, signals
 
 
 def post_save_data(sender, document, **kwargs):
-    """ Method executed after a saving of a Data object.
+    """Method executed after a saving of a Data object.
     Args:
         sender: Class.
         document: Data document.
@@ -31,7 +31,6 @@ def post_save_data(sender, document, **kwargs):
 
 
 def init():
-    """ Connect to Data object events.
-    """
+    """Connect to Data object events."""
     if ELASTICSEARCH_AUTO_INDEX:
         connector.connect(post_save_data, signals.post_save, Data)

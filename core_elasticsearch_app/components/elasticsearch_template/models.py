@@ -12,8 +12,7 @@ from core_main_app.components.template.models import Template
 
 
 class ElasticsearchTemplate(Document):
-    """ ElasticsearchTemplate object
-    """
+    """ElasticsearchTemplate object"""
 
     template = fields.ReferenceField(
         Template, blank=False, reverse_delete_rule=CASCADE, unique=True
@@ -25,7 +24,7 @@ class ElasticsearchTemplate(Document):
 
     @staticmethod
     def get_by_id(es_template_id):
-        """ Returns the object with a given id
+        """Returns the object with a given id
 
         Args:
             es_template_id:
@@ -43,7 +42,7 @@ class ElasticsearchTemplate(Document):
 
     @staticmethod
     def get_by_template(template):
-        """ Returns the object with a given template
+        """Returns the object with a given template
 
         Args:
             template:
@@ -61,7 +60,5 @@ class ElasticsearchTemplate(Document):
 
     @staticmethod
     def get_all():
-        """ Returns all objects
-
-        """
+        """Returns all objects"""
         return ElasticsearchTemplate.objects.all()

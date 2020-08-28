@@ -17,12 +17,11 @@ from core_main_app.utils.decorators import api_staff_member_required
 
 
 class ElasticsearchTemplateList(APIView):
-    """ List elasticsearch template configuration
-    """
+    """List elasticsearch template configuration"""
 
     @method_decorator(api_staff_member_required())
     def get(self, request):
-        """ Get all elasticsearch template configuration
+        """Get all elasticsearch template configuration
 
         Args:
             request: HTTP request
@@ -48,7 +47,7 @@ class ElasticsearchTemplateList(APIView):
 
     @method_decorator(api_staff_member_required())
     def post(self, request):
-        """ Create an elasticsearch template configuration
+        """Create an elasticsearch template configuration
 
         Parameters:
             {

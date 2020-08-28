@@ -6,7 +6,7 @@ from core_elasticsearch_app.components.elasticsearch_template.models import (
 
 
 def upsert(elasticsearch_template):
-    """ Save or Update Elasticsearch Template
+    """Save or Update Elasticsearch Template
 
     Args:
         elasticsearch_template:
@@ -18,7 +18,7 @@ def upsert(elasticsearch_template):
 
 
 def delete(elasticsearch_template):
-    """ Delete Elasticsearch Template
+    """Delete Elasticsearch Template
 
     Args:
         elasticsearch_template:
@@ -30,7 +30,7 @@ def delete(elasticsearch_template):
 
 
 def get_by_template(template):
-    """ Get Elasticsearch Template
+    """Get Elasticsearch Template
 
     Args:
         template:
@@ -42,7 +42,7 @@ def get_by_template(template):
 
 
 def get_all():
-    """ Get all Elasticsearch Template
+    """Get all Elasticsearch Template
 
     Returns:
 
@@ -51,7 +51,7 @@ def get_all():
 
 
 def get_by_id(es_template_id):
-    """ Get Elasticsearch Template by id
+    """Get Elasticsearch Template by id
 
     Args:
         es_template_id:

@@ -13,13 +13,12 @@ from core_elasticsearch_app.settings import CAN_SET_PUBLIC_DATA_TO_PRIVATE
 
 
 class ElasticsearchAppConfig(AppConfig):
-    """ Core application settings
-    """
+    """Core application settings"""
 
     name = "core_elasticsearch_app"
 
     def ready(self):
-        """ Run when the app is ready
+        """Run when the app is ready
 
         Returns:
 

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_value_from_path(data, path):
-    """ Get value from xpath
+    """Get value from xpath
 
     Args:
         data:
@@ -43,7 +43,7 @@ def get_value_from_path(data, path):
 
 
 def get_exists_query_from_path(path):
-    """ Return mongodb query that checks if path exists in database
+    """Return mongodb query that checks if path exists in database
 
     Args:
         path:

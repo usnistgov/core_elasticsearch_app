@@ -11,8 +11,7 @@ from core_elasticsearch_app.components.elasticsearch_template.models import (
 
 
 class ElasticsearchTemplateSerializer(DocumentSerializer):
-    """ ElasticsearchTemplate serializer
-    """
+    """ElasticsearchTemplate serializer"""
 
     class Meta(object):
         model = ElasticsearchTemplate
@@ -20,8 +19,7 @@ class ElasticsearchTemplateSerializer(DocumentSerializer):
         read_only_fields = ("id",)
 
     def create(self, validated_data):
-        """ Create and return a new `ElasticsearchTemplate` instance, given the validated data.
-        """
+        """Create and return a new `ElasticsearchTemplate` instance, given the validated data."""
         # Create instance from the validated data and insert it in DB
         instance = ElasticsearchTemplate(
             template=validated_data["template"],

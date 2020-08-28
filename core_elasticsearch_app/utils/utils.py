@@ -6,7 +6,7 @@ from functools import reduce
 
 
 def clean_keyword(keyword):
-    """ Remove extra characters and format keyword
+    """Remove extra characters and format keyword
 
     Args:
         keyword:
@@ -28,7 +28,7 @@ def clean_keyword(keyword):
 
 
 def get_nested_value(dictionary, keys, default=None):
-    """ Get value in nested dictionary
+    """Get value in nested dictionary
 
     From https://stackoverflow.com/a/46890853
 

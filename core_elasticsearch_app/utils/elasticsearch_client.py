@@ -6,14 +6,13 @@ from core_elasticsearch_app.settings import ELASTICSEARCH_HOST, ELASTICSEARCH_PO
 
 
 class ElasticsearchClient(object):
-    """ Elasticsearch client
-    """
+    """Elasticsearch client"""
 
     _es = None
 
     @classmethod
     def es(cls):
-        """ Return Elasticsearch connection
+        """Return Elasticsearch connection
         Returns:
         """
         if cls._es is None:
