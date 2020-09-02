@@ -43,7 +43,7 @@ def index_data(data):
             "title": get_value_from_path(data, es_template.title_path),
             "description": " ".join(
                 [
-                    get_value_from_path(data, path)
+                    _get_string_value(get_value_from_path(data, path))
                     for path in es_template.description_paths
                 ]
             ),
@@ -90,3 +90,17 @@ def get_suggestions(query, fuzziness=1, prefix_length=3, fragment_size=100):
     }
     result = ElasticsearchClient.search(ELASTICSEARCH_CDCS_DATA_INDEX, query)
     return result["hits"]["hits"]
+
+
+def _get_string_value(value):
+    """Get string value
+
+    Args:
+        value:
+
+    Returns:
+
+    """
+    if value:
+        return value
+    return ""
