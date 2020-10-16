@@ -22,6 +22,12 @@ CAN_SET_PUBLIC_DATA_TO_PRIVATE = getattr(
 """ :py:class:`boolean`: True if public data can be unpublished
 """
 
+CAN_ANONYMOUS_ACCESS_PUBLIC_DOCUMENT = getattr(
+    settings, "CAN_ANONYMOUS_ACCESS_PUBLIC_DOCUMENT", False
+)
+""" :py:class:`bool`: Can anonymous user access public document.
+"""
+
 ELASTICSEARCH_CDCS_DATA_INDEX = getattr(
     settings, "ELASTICSEARCH_CDCS_DATA_INDEX", "cdcs-data"
 )
