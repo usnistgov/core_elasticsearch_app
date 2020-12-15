@@ -43,6 +43,13 @@ class AddElasticsearchTemplateView(AddObjectModalView):
         except Exception as e:
             form.add_error(None, str(e))
 
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(AddElasticsearchTemplateView, self).get_form_kwargs(
+            *args, **kwargs
+        )
+        kwargs["request"] = self.request
+        return kwargs
+
 
 class EditElasticsearchTemplateView(EditObjectModalView):
     """EditElasticsearchTemplateView"""
@@ -60,6 +67,13 @@ class EditElasticsearchTemplateView(EditObjectModalView):
         except Exception as e:
             form.add_error(None, str(e))
 
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(EditElasticsearchTemplateView, self).get_form_kwargs(
+            *args, **kwargs
+        )
+        kwargs["request"] = self.request
+        return kwargs
+
 
 class DeleteElasticsearchTemplateView(DeleteObjectModalView):
     """DeleteElasticsearchTemplateView"""
@@ -76,6 +90,13 @@ class DeleteElasticsearchTemplateView(DeleteObjectModalView):
         return "the configuration using the template {0}".format(
             self.object.template.display_name
         )
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(DeleteElasticsearchTemplateView, self).get_form_kwargs(
+            *args, **kwargs
+        )
+        kwargs["request"] = self.request
+        return kwargs
 
 
 @staff_member_required
