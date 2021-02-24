@@ -25,7 +25,7 @@ by elasticsearch.
 
 .. code:: python
 
-    url(r'^elasticsearch/', include('core_elasticsearch_app.urls')),
+    re_path(r'^elasticsearch/', include('core_elasticsearch_app.urls')),
 
 
 3. Configure what should be indexed in Elasticsearch
