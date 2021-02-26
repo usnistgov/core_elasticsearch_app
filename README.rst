@@ -53,5 +53,5 @@ Below is an example to set this mapping via REST, for a given template:
     }
 
     requests.post(
-        SERVER_URI + "/elaticsearch/rest/elasticsearch_template/", data=payload, auth=(USER, PASSWORD)
+        SERVER_URI + "/elasticsearch/rest/elasticsearch_template/", data=payload, auth=(USER, PASSWORD)
     )
