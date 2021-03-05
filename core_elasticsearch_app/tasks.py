@@ -34,6 +34,7 @@ def index_data(data_id):
     try:
         data = data_system_api.get_data_by_id(data_id)
         try:
+            elasticsearch.index_data_semantic(data)
             elasticsearch.index_data(data)
         except Exception as e:
             logger.error(f"ERROR : An error occurred while indexing data : {str(e)}")
