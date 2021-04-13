@@ -33,7 +33,7 @@ chdir(normpath(join(abspath(__file__), pardir)))
 
 setup(
     name="core_elasticsearch_app",
-    version="1.0.0-alpha4",
+    version="1.0.0-alpha5",
     description="Elasticsearch utils for the curator core project",
     long_description=long_desc,
     author="NIST IT Lab",
