@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core_elasticsearch_app.components.data.elasticsearch import get_suggestions
+from core_elasticsearch_app.components.data.elasticsearch import get_suggestions, get_semantic_suggestions
 from core_elasticsearch_app.utils.utils import clean_keyword
 
 
@@ -39,6 +39,39 @@ class DocumentSuggestion(APIView):
             if keywords:
                 keywords = keywords.split(",")
             suggestions = get_suggestions(" ".join(keywords))
+            return Response(suggestions, status=status.HTTP_200_OK)
+        except Exception as api_exception:
+            content = {"message": str(api_exception)}
+            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class DocumentSuggestionSemantic(APIView):
+    """Get semantic suggestions from a query."""
+
+    @staticmethod
+    def post(request):
+        """Get all Suggestions
+
+        Parameters:
+            {
+                "query": "zip up files",
+            }
+
+        Args:
+            request: HTTP request
+
+        Returns:
+            - code: 200
+              content: List of suggestions
+            - code: 500
+              content: Internal server error
+        """
+        try:
+            # Get objects
+            query = request.data.get("query", None)
+
+            if query:
+                suggestions = get_semantic_suggestions(query)
             return Response(suggestions, status=status.HTTP_200_OK)
         except Exception as api_exception:
             content = {"message": str(api_exception)}

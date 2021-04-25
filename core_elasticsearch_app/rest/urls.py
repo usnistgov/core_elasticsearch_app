@@ -5,7 +5,7 @@ from django.urls import re_path
 from core_elasticsearch_app.rest.elasticsearch_template.views import (
     ElasticsearchTemplateList,
 )
-from core_elasticsearch_app.rest.views import DocumentSuggestion, KeywordSuggestion
+from core_elasticsearch_app.rest.views import DocumentSuggestion, KeywordSuggestion, DocumentSuggestionSemantic
 
 urlpatterns = [
     re_path(
@@ -22,5 +22,10 @@ urlpatterns = [
         r"^keyword/suggest",
         KeywordSuggestion.as_view(),
         name="core_elasticsearch_keyword_suggestion_view",
+    ),
+    re_path(
+        r"^document/semantic",
+        DocumentSuggestionSemantic.as_view(),
+        name="core_elasticsearch_keyword_suggestion_semantic_view",
     ),
 ]

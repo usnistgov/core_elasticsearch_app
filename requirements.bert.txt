@@ -1,0 +1,1 @@
+bert-serving-client==1.10.0
