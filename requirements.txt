@@ -1,2 +1,2 @@
-Django==2.2.20
+Django
 elasticsearch==7.5.1
