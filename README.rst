@@ -28,7 +28,13 @@ by elasticsearch.
     re_path(r'^elasticsearch/', include('core_elasticsearch_app.urls')),
 
 
-3. Configure what should be indexed in Elasticsearch
+3. Deploy an instance of Elasticsearch
+--------------------------------------
+
+Recommended version: 7.14.1
+See https://github.com/usnistgov/cdcs-docker#elasticsearch for help with Elasticsearch deployment.
+
+4. Configure what should be indexed in Elasticsearch
 ----------------------------------------------------
 
 It is recommended to configure the mapping between the CDCS templates and the Elasticsearch indices before starting to
