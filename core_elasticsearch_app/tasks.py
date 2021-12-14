@@ -14,9 +14,7 @@ logger = logging.getLogger(__name__)
 def index_all_data_from_template(template):
     """Index all data"""
     try:
-        data = data_system_api.get_all_by_template(
-            template=template, order_by_field=None
-        )
+        data = data_system_api.get_all_by_template(template=template)
         for document in data:
             try:
                 elasticsearch.index_data(document)

@@ -6,9 +6,7 @@ from core_elasticsearch_app.components.data.autocomplete_settings import (
     DATA_AUTOCOMPLETE_SETTINGS,
 )
 from core_elasticsearch_app.components.data.mongodb import get_value_from_path
-from core_elasticsearch_app.components.elasticsearch_template import (
-    api as elasticsearch_template_api,
-)
+
 from core_elasticsearch_app.settings import ELASTICSEARCH_CDCS_DATA_INDEX
 from core_elasticsearch_app.utils.elasticsearch_client import ElasticsearchClient
 from core_main_app.commons import exceptions
@@ -36,6 +34,10 @@ def index_data(data):
     Returns:
 
     """
+    from core_elasticsearch_app.components.elasticsearch_template import (
+        api as elasticsearch_template_api,
+    )
+
     try:
         es_template = elasticsearch_template_api.get_by_template(data.template)
         es_data = {

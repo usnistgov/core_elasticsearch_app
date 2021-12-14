@@ -7,7 +7,7 @@ from menu import Menu, MenuItem
 elasticsearch_children = (
     MenuItem(
         "Configure Templates",
-        reverse("admin:core_elasticsearch_app_templates"),
+        reverse("core-admin:core_elasticsearch_app_templates"),
         icon="list",
     ),
 )

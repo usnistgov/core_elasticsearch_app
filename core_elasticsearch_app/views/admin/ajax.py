@@ -27,8 +27,8 @@ class AddElasticsearchTemplateView(AddObjectModalView):
     """AddElasticsearchTemplateView"""
 
     form_class = ElasticsearchTemplateForm
-    document = ElasticsearchTemplate
-    success_url = reverse_lazy("admin:core_elasticsearch_app_templates")
+    model = ElasticsearchTemplate
+    success_url = reverse_lazy("core-admin:core_elasticsearch_app_templates")
     success_message = "Template was successfully configured for Elasticsearch."
 
     def _save(self, form):
@@ -55,8 +55,8 @@ class EditElasticsearchTemplateView(EditObjectModalView):
     """EditElasticsearchTemplateView"""
 
     form_class = ElasticsearchTemplateForm
-    document = ElasticsearchTemplate
-    success_url = reverse_lazy("admin:core_elasticsearch_app_templates")
+    model = ElasticsearchTemplate
+    success_url = reverse_lazy("core-admin:core_elasticsearch_app_templates")
     success_message = "Template Configuration edited with success."
 
     def _save(self, form):
@@ -78,8 +78,8 @@ class EditElasticsearchTemplateView(EditObjectModalView):
 class DeleteElasticsearchTemplateView(DeleteObjectModalView):
     """DeleteElasticsearchTemplateView"""
 
-    document = ElasticsearchTemplate
-    success_url = reverse_lazy("admin:core_elasticsearch_app_templates")
+    model = ElasticsearchTemplate
+    success_url = reverse_lazy("core-admin:core_elasticsearch_app_templates")
     success_message = "Template Configuration deleted with success."
 
     def _delete(self, request, *args, **kwargs):
@@ -114,14 +114,15 @@ def check_data_from_template(request, pk):
         # Get elasticsearch configuration for the given template
         es_template = elasticsearch_template_api.get_by_id(pk)
         # Check if titles found with given path
-        title_results = data_api.execute_query(
-            query=get_exists_query_from_path(es_template.title_path), user=request.user
+        title_results = data_api.execute_json_query(
+            json_query=get_exists_query_from_path(es_template.title_path),
+            user=request.user,
         )
         # Check if descriptions found with given path
         desc_count = 0
         for path in es_template.description_paths:
-            description_results = data_api.execute_query(
-                query=get_exists_query_from_path(path),
+            description_results = data_api.execute_json_query(
+                json_query=get_exists_query_from_path(path),
                 user=request.user,
             )
             desc_count += description_results.count()

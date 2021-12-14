@@ -3,7 +3,7 @@
 import logging
 
 from django import forms
-from django_mongoengine.forms import DocumentForm
+from django.forms import ModelForm
 
 from core_elasticsearch_app.components.elasticsearch_template.models import (
     ElasticsearchTemplate,
@@ -17,7 +17,7 @@ from core_main_app.components.template_version_manager import (
 logger = logging.getLogger(__name__)
 
 
-class ElasticsearchTemplateForm(DocumentForm):
+class ElasticsearchTemplateForm(ModelForm):
     """ElasticsearchTemplate form"""
 
     template = forms.ChoiceField(
@@ -44,7 +44,7 @@ class ElasticsearchTemplateForm(DocumentForm):
     )
 
     class Meta(object):
-        document = ElasticsearchTemplate
+        model = ElasticsearchTemplate
         fields = ["template", "title_path"]
 
     def __init__(self, *args, **kwargs):
@@ -57,7 +57,7 @@ class ElasticsearchTemplateForm(DocumentForm):
 
     def clean_template(self):
         data = self.cleaned_data["template"]
-        return template_api.get(data, request=self.request)
+        return template_api.get_by_id(data, request=self.request)
 
     def clean_description_paths(self):
         return self.cleaned_data["description_paths"].split()
@@ -81,7 +81,7 @@ def _get_templates_versions(request):
         )
         for elt in list_:
             for version in elt.versions:
-                template = template_api.get(version, request=request)
+                template = template_api.get_by_id(version, request=request)
                 version_name = template.display_name
                 templates.append((version, version_name))
     except exceptions.DoesNotExist as e:

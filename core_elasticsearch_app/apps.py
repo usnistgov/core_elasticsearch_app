@@ -5,7 +5,7 @@ import sys
 from django.apps import AppConfig
 
 from core_elasticsearch_app.commons.exceptions import ElasticsearchError
-from core_elasticsearch_app.components.data import watch as data_watch
+
 from core_elasticsearch_app.components.data.elasticsearch import (
     create_title_autocomplete_index,
 )
@@ -27,6 +27,8 @@ class ElasticsearchAppConfig(AppConfig):
 
         """
         if "migrate" not in sys.argv:
+            from core_elasticsearch_app.components.data import watch as data_watch
+
             if (
                 CAN_SET_PUBLIC_DATA_TO_PRIVATE
                 and not CAN_ANONYMOUS_ACCESS_PUBLIC_DOCUMENT
