@@ -14,9 +14,11 @@ class ElasticsearchTemplate(models.Model):
     template = models.OneToOneField(
         Template, blank=False, on_delete=models.CASCADE, unique=True
     )
+    # optional - default data.title
     title_path = models.CharField(default=None, max_length=400)
+    # optional - default to data full text
     description_paths = models.JSONField(
-        blank=False, validators=[validate_xpath_list], default=list
+        blank=True, null=True, validators=[validate_xpath_list], default=None
     )
 
     @staticmethod
