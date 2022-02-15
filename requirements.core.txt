@@ -1,3 +1,2 @@
-core-main-app==2.0.0-alpha1
-core-explore-keyword-app==2.0.0-alpha1
-signals-utils==1.12.*
+core-main-app==2.0.0-beta1
+core-explore-keyword-app==2.0.0-beta1
