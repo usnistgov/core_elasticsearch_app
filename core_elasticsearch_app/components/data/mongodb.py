@@ -18,7 +18,7 @@ def get_value_from_path(data, path):
     Returns:
 
     """
-    value = get_nested_value(data.dict_content, path)
+    value = get_nested_value(data.get_dict_content(), path)
     if value:
         if isinstance(value, dict):
             logger.info(
