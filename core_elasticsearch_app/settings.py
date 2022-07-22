@@ -34,6 +34,12 @@ ELASTICSEARCH_CDCS_DATA_INDEX = getattr(
 """ :py:class:`str`: Name of the Elasticsearch index for CDCS data
 """
 
+ELASTICSEARCH_CDCS_DATA_INDEX_SEMANTIC = getattr(
+    settings, "ELASTICSEARCH_CDCS_DATA_INDEX_SEMANTIC", "cdcs-data-semantic"
+)
+""" :py:class:`str`: Name of the Elasticsearch index for CDCS data
+"""
+
 ELASTICSEARCH_AUTO_INDEX = getattr(settings, "ELASTICSEARCH_AUTO_INDEX", True)
 """ :py:class:`boolean`: True if data should be automatically indexed in Elasticsearch
 """
