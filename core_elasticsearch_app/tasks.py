@@ -4,8 +4,8 @@ import logging
 
 from celery import shared_task
 
-from core_elasticsearch_app.components.data import elasticsearch
 from core_main_app.system import api as data_system_api
+from core_elasticsearch_app.components.data import elasticsearch
 
 logger = logging.getLogger(__name__)
 
@@ -18,12 +18,14 @@ def index_all_data_from_template(template):
         for document in data:
             try:
                 elasticsearch.index_data(document)
-            except Exception as e:
+            except Exception as exception:
                 logger.error(
-                    f"ERROR : An error occurred while indexing data : {str(e)}"
+                    "ERROR : An error occurred while indexing data : %s", str(exception)
                 )
-    except Exception as e:
-        logger.error(f"ERROR : An error occurred while indexing data : {str(e)}")
+    except Exception as exception:
+        logger.error(
+            "ERROR : An error occurred while indexing data : %s", str(exception)
+        )
 
 
 @shared_task
@@ -33,7 +35,11 @@ def index_data(data_id):
         data = data_system_api.get_data_by_id(data_id)
         try:
             elasticsearch.index_data(data)
-        except Exception as e:
-            logger.error(f"ERROR : An error occurred while indexing data : {str(e)}")
-    except Exception as e:
-        logger.error(f"ERROR : An error occurred while indexing data : {str(e)}")
+        except Exception as exception:
+            logger.error(
+                "ERROR : An error occurred while indexing data :  %s", str(exception)
+            )
+    except Exception as exception:
+        logger.error(
+            "ERROR : An error occurred while indexing data :  %s", str(exception)
+        )

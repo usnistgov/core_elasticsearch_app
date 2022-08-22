@@ -2,6 +2,9 @@
 """
 import logging
 
+from core_main_app.commons import exceptions
+from xml_utils.xsd_tree.xsd_tree import XSDTree
+
 from core_elasticsearch_app.components.data.autocomplete_settings import (
     DATA_AUTOCOMPLETE_SETTINGS,
 )
@@ -10,8 +13,9 @@ from core_elasticsearch_app.settings import (
     ELASTICSEARCH_CDCS_DATA_INDEX,
 )
 from core_elasticsearch_app.utils.elasticsearch_client import ElasticsearchClient
-from core_main_app.commons import exceptions
-from xml_utils.xsd_tree.xsd_tree import XSDTree
+from core_elasticsearch_app.components.elasticsearch_template import (
+    api as elasticsearch_template_api,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -36,9 +40,6 @@ def index_data(data):
     Returns:
 
     """
-    from core_elasticsearch_app.components.elasticsearch_template import (
-        api as elasticsearch_template_api,
-    )
 
     try:
         es_template = elasticsearch_template_api.get_by_template(data.template)
@@ -62,12 +63,10 @@ def index_data(data):
         )
     except exceptions.DoesNotExist:
         logger.warning(
-            "Data with id {0} will not be indexed. No template configured.".format(
-                str(data.id)
-            )
+            "Data with id %s will not be indexed. No template configured.", str(data.id)
         )
-    except Exception as e:
-        logger.error(str(e))
+    except Exception as exception:
+        logger.error(str(exception))
 
 
 def get_suggestions(query, fuzziness=1, prefix_length=3, fragment_size=100):

@@ -6,6 +6,13 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 
+from core_main_app.components.data import api as data_api
+from core_main_app.views.common.ajax import (
+    AddObjectModalView,
+    DeleteObjectModalView,
+    EditObjectModalView,
+)
+
 from core_elasticsearch_app.components.data.mongodb import get_exists_query_from_path
 from core_elasticsearch_app.components.elasticsearch_template import (
     api as elasticsearch_template_api,
@@ -15,12 +22,6 @@ from core_elasticsearch_app.components.elasticsearch_template.models import (
 )
 from core_elasticsearch_app.tasks import index_all_data_from_template
 from core_elasticsearch_app.views.admin.forms import ElasticsearchTemplateForm
-from core_main_app.components.data import api as data_api
-from core_main_app.views.common.ajax import (
-    AddObjectModalView,
-    DeleteObjectModalView,
-    EditObjectModalView,
-)
 
 
 class AddElasticsearchTemplateView(AddObjectModalView):
@@ -40,13 +41,16 @@ class AddElasticsearchTemplateView(AddObjectModalView):
                 description_paths=form.cleaned_data["description_paths"],
             )
             elasticsearch_template_api.upsert(es_template)
-        except Exception as e:
-            form.add_error(None, str(e))
+        except Exception as exception:
+            form.add_error(None, str(exception))
 
     def get_form_kwargs(self, *args, **kwargs):
-        kwargs = super(AddElasticsearchTemplateView, self).get_form_kwargs(
-            *args, **kwargs
-        )
+        """get_form_kwargs
+
+        Returns:
+
+        """
+        kwargs = super().get_form_kwargs(*args, **kwargs)
         kwargs["request"] = self.request
         return kwargs
 
@@ -64,13 +68,11 @@ class EditElasticsearchTemplateView(EditObjectModalView):
         try:
             self.object.description_paths = form.cleaned_data["description_paths"]
             elasticsearch_template_api.upsert(self.object)
-        except Exception as e:
-            form.add_error(None, str(e))
+        except Exception as exception:
+            form.add_error(None, str(exception))
 
     def get_form_kwargs(self, *args, **kwargs):
-        kwargs = super(EditElasticsearchTemplateView, self).get_form_kwargs(
-            *args, **kwargs
-        )
+        kwargs = super().get_form_kwargs(*args, **kwargs)
         kwargs["request"] = self.request
         return kwargs
 
@@ -87,14 +89,17 @@ class DeleteElasticsearchTemplateView(DeleteObjectModalView):
         elasticsearch_template_api.delete(self.object)
 
     def _get_object_name(self):
-        return "the configuration using the template {0}".format(
-            self.object.template.display_name
+        return (
+            f"the configuration using the template {self.object.template.display_name}"
         )
 
     def get_form_kwargs(self, *args, **kwargs):
-        kwargs = super(DeleteElasticsearchTemplateView, self).get_form_kwargs(
-            *args, **kwargs
-        )
+        """get_form_kwargs
+
+        Returns:
+
+        """
+        kwargs = super().get_form_kwargs(*args, **kwargs)
         kwargs["request"] = self.request
         return kwargs
 
@@ -130,8 +135,8 @@ def check_data_from_template(request, pk):
             f"Title: {title_results.count()} data found. "
             f"Description: {desc_count} data fields found."
         )
-    except Exception as e:
-        message = str(e)
+    except Exception as exception:
+        message = str(exception)
 
     return HttpResponse(json.dumps(message), content_type="application/javascript")
 

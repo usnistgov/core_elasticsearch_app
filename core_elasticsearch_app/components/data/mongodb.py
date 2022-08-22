@@ -2,8 +2,8 @@
 """
 import logging
 
-from core_elasticsearch_app.utils.utils import get_nested_value
 from core_main_app.utils.xml import xpath_to_dot_notation
+from core_elasticsearch_app.utils.utils import get_nested_value
 
 logger = logging.getLogger(__name__)
 
@@ -21,23 +21,17 @@ def get_value_from_path(data, path):
     value = get_nested_value(data.get_dict_content(), path)
     if value:
         if isinstance(value, dict):
-            logger.info(
-                "A dict was found at {0} for data {1}".format(path, str(data.id))
-            )
+            logger.info("A dict was found at %s for data %s ", path, str(data.id))
             try:
                 value = value["#text"]
-            except:
+            except Exception:
                 value = None
                 logger.warning(
-                    "#text was not found at path {0} for data {1}".format(
-                        path, str(data.id)
-                    )
+                    "#text was not found at path %s for data %s ", path, str(data.id)
                 )
     else:
         logger.warning(
-            "No value could be found at path {0} for data {1}".format(
-                path, str(data.id)
-            )
+            "No value could be found at path %s for data %s", path, str(data.id)
         )
     return value
 

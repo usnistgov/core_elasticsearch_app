@@ -2,9 +2,9 @@
 """
 from django.db.models.signals import post_save
 
+from core_main_app.components.data.models import Data
 from core_elasticsearch_app.settings import ELASTICSEARCH_AUTO_INDEX
 from core_elasticsearch_app.tasks import index_data
-from core_main_app.components.data.models import Data
 
 
 def post_save_data(sender, instance, **kwargs):
