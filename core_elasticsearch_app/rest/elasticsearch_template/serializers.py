@@ -1,6 +1,6 @@
 """ Serializers used for the elasticsearch template REST API.
 """
-from rest_framework_mongoengine.serializers import DocumentSerializer
+from rest_framework.serializers import ModelSerializer
 
 from core_elasticsearch_app.components.elasticsearch_template import (
     api as elasticsearch_template_api,
@@ -10,10 +10,12 @@ from core_elasticsearch_app.components.elasticsearch_template.models import (
 )
 
 
-class ElasticsearchTemplateSerializer(DocumentSerializer):
+class ElasticsearchTemplateSerializer(ModelSerializer):
     """ElasticsearchTemplate serializer"""
 
-    class Meta(object):
+    class Meta:
+        """Meta"""
+
         model = ElasticsearchTemplate
         fields = ["id", "template", "title_path", "description_paths"]
         read_only_fields = ("id",)

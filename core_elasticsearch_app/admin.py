@@ -4,7 +4,12 @@ from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import re_path
 
+from core_main_app.admin import core_admin_site
+from core_elasticsearch_app.components.elasticsearch_template.models import (
+    ElasticsearchTemplate,
+)
 from core_elasticsearch_app.views.admin import views as admin_views, ajax as admin_ajax
+
 
 admin_urls = [
     re_path(
@@ -39,5 +44,6 @@ admin_urls = [
     ),
 ]
 
-urls = admin.site.get_urls()
-admin.site.get_urls = lambda: admin_urls + urls
+admin.site.register(ElasticsearchTemplate)
+urls = core_admin_site.get_urls()
+core_admin_site.get_urls = lambda: admin_urls + urls

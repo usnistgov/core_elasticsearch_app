@@ -1,5 +1,6 @@
 """ REST views for the elasticsearch package
 """
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -75,21 +76,22 @@ class KeywordSuggestion(APIView):
         try:
             # Get keyword parameter
             keyword = self.request.query_params.get("keyword", None)
-            if keyword:
-                # get suggestions from elasticsearch
-                suggestions = get_suggestions(keyword, fragment_size=1)
-                # build a list of formatted keywords
-                suggestions = [
-                    clean_keyword(s["highlight"]["description"][0])
-                    for s in suggestions
-                    if "description" in s["highlight"]
-                ]
-                # get list of unique keywords
-                suggestions = set(suggestions)
-                return Response(suggestions, status=status.HTTP_200_OK)
-            else:
+            if not keyword:
                 content = {"message": "Keyword parameter is missing"}
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+            # get suggestions from elasticsearch
+            suggestions = get_suggestions(keyword, fragment_size=1)
+            # build a list of formatted keywords
+            suggestions = [
+                clean_keyword(s["highlight"]["description"][0])
+                for s in suggestions
+                if "description" in s["highlight"]
+            ]
+            # get list of unique keywords
+            suggestions = set(suggestions)
+            return Response(suggestions, status=status.HTTP_200_OK)
+
         except Exception as api_exception:
             content = {"message": str(api_exception)}
             return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

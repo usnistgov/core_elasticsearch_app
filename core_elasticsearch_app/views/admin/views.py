@@ -2,18 +2,21 @@
 """
 from django.views.generic import View
 
-from core_elasticsearch_app.components.elasticsearch_template import (
-    api as elasticsearch_template_api,
-)
+
 from core_main_app.utils.rendering import admin_render
 from core_main_app.views.common.ajax import (
     AddObjectModalView,
     DeleteObjectModalView,
     EditObjectModalView,
 )
+from core_elasticsearch_app.components.elasticsearch_template import (
+    api as elasticsearch_template_api,
+)
 
 
 class TemplatesView(View):
+    """Templates View"""
+
     def get(self, request, *args, **kwargs):
         """Configure templates, Display as list.
 
