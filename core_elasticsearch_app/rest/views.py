@@ -5,7 +5,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core_elasticsearch_app.components.data.elasticsearch import get_suggestions
+from core_elasticsearch_app.components.data.elasticsearch import (
+    get_suggestions,
+)
 from core_elasticsearch_app.utils.utils import clean_keyword
 
 
@@ -43,7 +45,9 @@ class DocumentSuggestion(APIView):
             return Response(suggestions, status=status.HTTP_200_OK)
         except Exception as api_exception:
             content = {"message": str(api_exception)}
-            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                content, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class KeywordSuggestion(APIView):
@@ -94,4 +98,6 @@ class KeywordSuggestion(APIView):
 
         except Exception as api_exception:
             content = {"message": str(api_exception)}
-            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                content, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

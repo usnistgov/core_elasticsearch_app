@@ -37,13 +37,17 @@ class ElasticsearchTemplateList(APIView):
             object_list = elasticsearch_template_api.get_all()
 
             # Serialize object
-            serializer = ElasticsearchTemplateSerializer(object_list, many=True)
+            serializer = ElasticsearchTemplateSerializer(
+                object_list, many=True
+            )
 
             # Return response
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as api_exception:
             content = {"message": str(api_exception)}
-            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                content, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     @method_decorator(api_staff_member_required())
     def post(self, request):
@@ -90,7 +94,11 @@ class ElasticsearchTemplateList(APIView):
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
         except exceptions.ApiError as api_exception:
             content = {"message": str(api_exception)}
-            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                content, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
         except Exception as exception:
             content = {"message": str(exception)}
-            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                content, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

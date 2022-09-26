@@ -29,7 +29,10 @@ class ElasticsearchTemplateForm(ModelForm):
         label="Path to Title",
         required=False,
         widget=forms.TextInput(
-            attrs={"placeholder": "Resource/identity/title", "class": "form-control"}
+            attrs={
+                "placeholder": "Resource/identity/title",
+                "class": "form-control",
+            }
         ),
     )
 
@@ -53,7 +56,9 @@ class ElasticsearchTemplateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request")
         super().__init__(*args, **kwargs)
-        self.fields["template"].choices = _get_templates_versions(request=self.request)
+        self.fields["template"].choices = _get_templates_versions(
+            request=self.request
+        )
         self.fields["description_paths"].initial = "\n".join(
             kwargs["instance"].description_paths if kwargs["instance"] else ""
         )
@@ -98,6 +103,8 @@ def _get_templates_versions(request):
                 version_name = template.display_name
                 templates.append((version, version_name))
     except exceptions.DoesNotExist as exception:
-        logger.warning("_get_templates_versions threw an exception: %s", str(exception))
+        logger.warning(
+            "_get_templates_versions threw an exception: %s", str(exception)
+        )
 
     return templates

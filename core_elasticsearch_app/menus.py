@@ -12,4 +12,6 @@ elasticsearch_children = (
     ),
 )
 
-Menu.add_item("admin", MenuItem("ELASTICSEARCH", None, children=elasticsearch_children))
+Menu.add_item(
+    "admin", MenuItem("ELASTICSEARCH", None, children=elasticsearch_children)
+)

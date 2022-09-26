@@ -21,17 +21,23 @@ def get_value_from_path(data, path):
     value = get_nested_value(data.get_dict_content(), path)
     if value:
         if isinstance(value, dict):
-            logger.info("A dict was found at %s for data %s ", path, str(data.id))
+            logger.info(
+                "A dict was found at %s for data %s ", path, str(data.id)
+            )
             try:
                 value = value["#text"]
             except Exception:
                 value = None
                 logger.warning(
-                    "#text was not found at path %s for data %s ", path, str(data.id)
+                    "#text was not found at path %s for data %s ",
+                    path,
+                    str(data.id),
                 )
     else:
         logger.warning(
-            "No value could be found at path %s for data %s", path, str(data.id)
+            "No value could be found at path %s for data %s",
+            path,
+            str(data.id),
         )
     return value
 

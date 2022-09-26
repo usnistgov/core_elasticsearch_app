@@ -2,7 +2,10 @@
 """
 from elasticsearch import Elasticsearch
 
-from core_elasticsearch_app.settings import ELASTICSEARCH_HOST, ELASTICSEARCH_PORT
+from core_elasticsearch_app.settings import (
+    ELASTICSEARCH_HOST,
+    ELASTICSEARCH_PORT,
+)
 
 
 class ElasticsearchClient:
@@ -29,7 +32,9 @@ class ElasticsearchClient:
 
         Returns:
         """
-        return cls.elasticsearch().indices.delete(index=index_name, ignore=[400, 404])
+        return cls.elasticsearch().indices.delete(
+            index=index_name, ignore=[400, 404]
+        )
 
     @classmethod
     def create_index(cls, index_name, settings=None):

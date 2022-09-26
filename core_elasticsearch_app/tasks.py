@@ -20,11 +20,13 @@ def index_all_data_from_template(template):
                 elasticsearch.index_data(document)
             except Exception as exception:
                 logger.error(
-                    "ERROR : An error occurred while indexing data : %s", str(exception)
+                    "ERROR : An error occurred while indexing data : %s",
+                    str(exception),
                 )
     except Exception as exception:
         logger.error(
-            "ERROR : An error occurred while indexing data : %s", str(exception)
+            "ERROR : An error occurred while indexing data : %s",
+            str(exception),
         )
 
 
@@ -37,9 +39,11 @@ def index_data(data_id):
             elasticsearch.index_data(data)
         except Exception as exception:
             logger.error(
-                "ERROR : An error occurred while indexing data :  %s", str(exception)
+                "ERROR : An error occurred while indexing data :  %s",
+                str(exception),
             )
     except Exception as exception:
         logger.error(
-            "ERROR : An error occurred while indexing data :  %s", str(exception)
+            "ERROR : An error occurred while indexing data :  %s",
+            str(exception),
         )

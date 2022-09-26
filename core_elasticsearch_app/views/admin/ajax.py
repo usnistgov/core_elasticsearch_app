@@ -13,7 +13,9 @@ from core_main_app.views.common.ajax import (
     EditObjectModalView,
 )
 
-from core_elasticsearch_app.components.data.mongodb import get_exists_query_from_path
+from core_elasticsearch_app.components.data.mongodb import (
+    get_exists_query_from_path,
+)
 from core_elasticsearch_app.components.elasticsearch_template import (
     api as elasticsearch_template_api,
 )
@@ -66,7 +68,9 @@ class EditElasticsearchTemplateView(EditObjectModalView):
     def _save(self, form):
         # Save treatment.
         try:
-            self.object.description_paths = form.cleaned_data["description_paths"]
+            self.object.description_paths = form.cleaned_data[
+                "description_paths"
+            ]
             elasticsearch_template_api.upsert(self.object)
         except Exception as exception:
             form.add_error(None, str(exception))
@@ -89,9 +93,7 @@ class DeleteElasticsearchTemplateView(DeleteObjectModalView):
         elasticsearch_template_api.delete(self.object)
 
     def _get_object_name(self):
-        return (
-            f"the configuration using the template {self.object.template.display_name}"
-        )
+        return f"the configuration using the template {self.object.template.display_name}"
 
     def get_form_kwargs(self, *args, **kwargs):
         """get_form_kwargs
@@ -138,7 +140,9 @@ def check_data_from_template(request, pk):
     except Exception as exception:
         message = str(exception)
 
-    return HttpResponse(json.dumps(message), content_type="application/javascript")
+    return HttpResponse(
+        json.dumps(message), content_type="application/javascript"
+    )
 
 
 @staff_member_required
