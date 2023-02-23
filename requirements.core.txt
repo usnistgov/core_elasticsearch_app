@@ -1,2 +1,2 @@
-core-main-app==2.2.*
-core-explore-keyword-app==2.2.*
+core-main-app==2.3.*
+core-explore-keyword-app==2.3.*
