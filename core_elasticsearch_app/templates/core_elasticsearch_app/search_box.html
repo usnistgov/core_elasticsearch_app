@@ -4,11 +4,11 @@
 <link rel="stylesheet" type="text/css" href="{% static 'core_elasticsearch_app/css/search_box.css' %}">
 
 
-<form class="form-inline mr-auto">
+<form class="form-inline {% if BOOTSTRAP_VERSION == "4.6.2" %}mr-auto{% elif BOOTSTRAP_VERSION == "5.1.3" %}me-auto{% endif %}">
   <div class="md-form my-0">
     <input id="es_search_box_input" class="form-control es_search_box_input hidden" type="text"
            placeholder="Search..." aria-label="Search">
-    <i class="es_search_icon fas fa-search text-white ml-3" aria-hidden="true"></i>
+    <i class="es_search_icon fas fa-search text-white {% if BOOTSTRAP_VERSION == "4.6.2" %}ml-3{% elif BOOTSTRAP_VERSION == "5.1.3" %}ms-3{% endif %}" aria-hidden="true"></i>
   </div>
 </form>
 
